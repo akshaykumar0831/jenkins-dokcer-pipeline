@@ -20,7 +20,7 @@ pipeline {
                 script {
                     app = docker.build(DOCKER_IMAGE_NAME)
                     app.inside {
-                        sh 'echo Hello, World!'
+                        sh 'docker build -t akshaykumar0831/train-schedule .'
                     }
                 }
             }
@@ -32,6 +32,9 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
+                        sh 'docker login -u akshaykumar0831 -p Iwncmghp@123'
+
+                        sh 'docker push akshaykumar0831/train-schedule'
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                     }
